@@ -1,0 +1,10 @@
+<section class="hero">
+  <div><span class="eyebrow">Resumen del sistema</span><h1>Hola, {{auth.user()?.persona?.nombres}}</h1><p>Administra la información de la clínica desde un solo lugar.</p></div>
+  <div class="date"><b>Sesión activa</b><span>Conexión protegida con JWT</span></div>
+</section>
+<section class="quick-grid">
+  @if(auth.hasPage('/personas')){<a class="quick card" routerLink="/personas"><span>PE</span><div><b>Personas</b><p>Consulta y registra información personal.</p></div><i>→</i></a>}
+  @if(auth.hasPage('/usuarios')){<div class="quick card disabled"><span>US</span><div><b>Usuarios</b><p>Gestión de cuentas y estados.</p></div><em>Próximo</em></div>}
+  @if(auth.hasPage('/roles')){<div class="quick card disabled"><span>RO</span><div><b>Roles y accesos</b><p>Permisos administrativos.</p></div><em>Próximo</em></div>}
+</section>
+<section class="info card"><div class="health">+</div><div><span class="eyebrow">Salus Laboris</span><h2>Gestión ocupacional segura</h2><p>Tu sesión consulta los permisos directamente desde el backend. Solo verás los módulos habilitados para tu rol.</p></div></section>

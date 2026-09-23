@@ -1,0 +1,23 @@
+<div class="shell">
+  <aside [class.open]="open()">
+    <div class="logo"><span>+</span><div>Salus Laboris<small>Salud ocupacional</small></div></div>
+    <nav>
+      <span class="nav-title">Principal</span>
+      <a routerLink="/dashboard" routerLinkActive="active" (click)="open.set(false)"><i>IN</i>Inicio</a>
+      <span class="nav-title">Administración</span>
+      @for(item of items;track item.route){
+        @if(auth.hasPage(item.permission)){<a [routerLink]="item.route" routerLinkActive="active" (click)="open.set(false)"><i>{{item.icon}}</i>{{item.label}}</a>}
+      }
+    </nav>
+    <div class="sidebar-foot"><span class="status-dot"></span><div><b>Sistema operativo</b><small>API conectada</small></div></div>
+  </aside>
+  @if(open()){<button class="overlay" aria-label="Cerrar menú" (click)="open.set(false)"></button>}
+  <section class="main">
+    <header>
+      <button class="menu" (click)="open.set(!open())">☰</button>
+      <div class="header-title"><b>Panel administrativo</b><span>Clínica Salus Laboris</span></div>
+      <div class="profile"><div class="avatar">{{initials()}}</div><div><b>{{auth.user()?.persona?.nombres}}</b><span>{{auth.user()?.rol?.nombre}}</span></div><button title="Cerrar sesión" (click)="auth.logout()">Salir</button></div>
+    </header>
+    <main class="content"><router-outlet /></main>
+  </section>
+</div>

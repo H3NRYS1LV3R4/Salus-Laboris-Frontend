@@ -1,0 +1,31 @@
+<div class="page-head"><div><h1>Personas</h1><p>Administra los datos personales registrados en el sistema.</p></div><button class="btn btn-primary" (click)="open()">＋ Nueva persona</button></div>
+@if(message()){<div class="notice success">{{message()}}<button (click)="message.set('')">×</button></div>}
+@if(error()&&!modal()){<div class="notice failure">{{error()}}<button (click)="error.set('')">×</button></div>}
+<section class="card table-card">
+  <div class="toolbar"><div class="search"><span>⌕</span><input #search placeholder="Buscar por nombre o documento" (input)="query.set(search.value)" /></div><span>{{total()}} registros</span></div>
+  <div class="table-wrap"><table><thead><tr><th>Persona</th><th>Documento</th><th>Contacto</th><th>Estado</th><th></th></tr></thead><tbody>
+    @if(loading()){@for(i of [1,2,3,4];track i){<tr><td colspan="5"><div class="skeleton"></div></td></tr>}}
+    @else{@for(person of filtered();track person.id){<tr>
+      <td><div class="person"><span>{{person.nombres[0]}}{{person.apellidoPaterno[0]}}</span><div><b>{{person.nombres}} {{person.apellidoPaterno}}</b><small>{{person.apellidoMaterno||'Sin segundo apellido'}}</small></div></div></td>
+      <td><b>{{person.tipoDocumento}}</b><small>{{person.nroDocumento}}</small></td>
+      <td><b>{{person.correo||'Sin correo'}}</b><small>{{person.telefono||'Sin teléfono'}}</small></td>
+      <td><span class="badge" [class.off]="!person.estado">{{person.estado?'Activo':'Inactivo'}}</span></td>
+      <td class="actions"><button (click)="open(person)">Editar</button><button [class.activate]="!person.estado" (click)="toggle(person)">{{person.estado?'Desactivar':'Activar'}}</button></td>
+    </tr>}@empty{<tr><td colspan="5" class="empty">No se encontraron personas.</td></tr>}}
+  </tbody></table></div>
+  @if(totalPages()>1){<div class="pager"><button class="btn btn-light" [disabled]="page()===0" (click)="load(page()-1)">Anterior</button><span>Página {{page()+1}} de {{totalPages()}}</span><button class="btn btn-light" [disabled]="page()+1>=totalPages()" (click)="load(page()+1)">Siguiente</button></div>}
+</section>
+@if(modal()){
+  <div class="modal-backdrop" (mousedown)="close()"><section class="modal card" (mousedown)="$event.stopPropagation()">
+    <div class="modal-head"><div><span class="eyebrow">{{editing()?'Editar registro':'Nuevo registro'}}</span><h2>{{editing()?'Actualizar persona':'Registrar persona'}}</h2></div><button (click)="close()">×</button></div>
+    @if(error()){<div class="notice failure">{{error()}}</div>}
+    <form [formGroup]="form" (ngSubmit)="save()"><div class="form-grid">
+      <div class="field"><label>Tipo de documento</label><select formControlName="tipoDocumento"><option>DNI</option><option>CE</option><option>PASAPORTE</option><option>OTRO</option></select></div>
+      <div class="field"><label>Número de documento</label><input formControlName="nroDocumento" placeholder="Ej. 76543210" />@if(form.controls.nroDocumento.touched&&form.controls.nroDocumento.invalid){<small>Campo obligatorio.</small>}</div>
+      <div class="field wide"><label>Nombres</label><input formControlName="nombres" placeholder="Nombres completos" /></div>
+      <div class="field"><label>Apellido paterno</label><input formControlName="apellidoPaterno" /></div><div class="field"><label>Apellido materno</label><input formControlName="apellidoMaterno" /></div>
+      <div class="field"><label>Fecha de nacimiento</label><input type="date" formControlName="fechaNacimiento" /></div><div class="field"><label>Teléfono</label><input formControlName="telefono" /></div>
+      <div class="field wide"><label>Correo electrónico</label><input type="email" formControlName="correo" placeholder="correo@ejemplo.com" />@if(form.controls.correo.touched&&form.controls.correo.invalid){<small>Correo electrónico inválido.</small>}</div>
+    </div><div class="modal-actions"><button type="button" class="btn btn-light" (click)="close()">Cancelar</button><button class="btn btn-primary" [disabled]="saving()">{{saving()?'Guardando…':'Guardar persona'}}</button></div></form>
+  </section></div>
+}

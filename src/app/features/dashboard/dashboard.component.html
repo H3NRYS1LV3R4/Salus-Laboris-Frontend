@@ -6,6 +6,7 @@
   @if(auth.hasPage('/personas')){<a class="quick card" routerLink="/personas"><span>PE</span><div><b>Personas</b><p>Consulta y registra información personal.</p></div><i>→</i></a>}
   @if(auth.hasPage('/usuarios')){<a class="quick card" routerLink="/usuarios"><span>US</span><div><b>Usuarios</b><p>Gestión de cuentas y estados.</p></div><i>→</i></a>}
   @if(auth.hasPage('/roles')){<a class="quick card" routerLink="/roles"><span>RO</span><div><b>Roles</b><p>Perfiles de seguridad.</p></div><i>→</i></a>}
+  @if(auth.hasPage('/paginas')){<a class="quick card" routerLink="/paginas"><span>PA</span><div><b>Páginas</b><p>Módulos disponibles del sistema.</p></div><i>→</i></a>}
   @if(auth.hasPage('/accesos')){<a class="quick card" routerLink="/accesos"><span>AC</span><div><b>Accesos</b><p>Permisos administrativos.</p></div><i>→</i></a>}
 </section>
 <section class="info card"><div class="health">+</div><div><span class="eyebrow">Salus Laboris</span><h2>Gestión ocupacional segura</h2><p>Tu sesión consulta los permisos directamente desde el backend. Solo verás los módulos habilitados para tu rol.</p></div></section>

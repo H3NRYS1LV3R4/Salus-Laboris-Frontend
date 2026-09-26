@@ -16,6 +16,10 @@ export class AuthService {
   readonly user = computed(() => this.state()?.usuario ?? null);
   readonly pages = computed(() => this.state()?.paginas ?? []);
   readonly authenticated = computed(() => !!this.state()?.accessToken);
+  readonly administrator = computed(() => {
+    const role=this.user()?.rol?.nombre?.trim().toUpperCase();
+    return role==='ADMIN'||role==='ADMINISTRADOR';
+  });
 
   login(nombreUsuario:string, password:string):Observable<AuthResponse> {
     return this.http.post<LoginApiResponse>(`${API_URL}/auth/login`, { nombreUsuario, password }).pipe(
@@ -35,6 +39,8 @@ export class AuthService {
   }
   token():string|null { return this.state()?.accessToken ?? null; }
   hasPage(route:string):boolean {
+    const adminRoutes=['/personas','/usuarios','/roles','/paginas','/accesos'];
+    if(this.administrator()&&adminRoutes.includes(route)) return true;
     const aliases=route==='/usuarios'?[route,'/admin/usuarios']:[route];
     return this.pages().some(page=>page.estado&&aliases.includes(page.ruta));
   }

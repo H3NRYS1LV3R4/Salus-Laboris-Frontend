@@ -9,7 +9,7 @@
         @if(auth.hasPage(item.permission)){<a [routerLink]="item.route" routerLinkActive="active" (click)="open.set(false)"><i>{{item.icon}}</i>{{item.label}}</a>}
       }
     </nav>
-    <div class="sidebar-foot"><span class="status-dot"></span><div><b>Sistema operativo</b><small>API conectada</small></div></div>
+    <div class="sidebar-foot"><span class="status-dot"></span><div><b>Servicio disponible</b><small>Sistema conectado</small></div></div>
   </aside>
   @if(open()){<button class="overlay" aria-label="Cerrar menú" (click)="open.set(false)"></button>}
   <section class="main">
